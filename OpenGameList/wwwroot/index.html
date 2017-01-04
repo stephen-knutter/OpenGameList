@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <base href="/">
+    <title>OpenGameList</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Load libraries -->
+    <!-- Polyfill(s) for older browsers -->
+    <script src="js/shim.min.js"></script>
+    <script src="js/zone.js"></script>
+    <script src="js/Reflect.js"></script>
+    <script src="js/system.src.js"></script>
+
+    <!-- Configure System.js -->
+    <script src="systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function (err) { console.log('System error: ', err); });
+    </script>
+  </head>
+  <body>
+    <opengamelist>Loading...</opengamelist>
+  </body>
+</html>

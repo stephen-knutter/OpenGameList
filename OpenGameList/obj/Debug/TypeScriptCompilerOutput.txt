@@ -1,0 +1,15 @@
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.component.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.module.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\main.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.component.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.module.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\main.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.component.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.module.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\main.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.component.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.module.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\main.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.component.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.module.js
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\main.js
