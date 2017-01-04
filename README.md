@@ -1,1 +1,1 @@
-### C# w/ Angular2 project
+### C#(ASP.NET Core) w/ Angular2 project
