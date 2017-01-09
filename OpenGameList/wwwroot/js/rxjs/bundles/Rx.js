@@ -242,8 +242,12 @@ var __generator;
     }
 })
 (function (exporter) {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+
     __extends = function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
@@ -437,7 +441,8 @@ var Subscription = (function () {
             var trial = tryCatch(_unsubscribe).call(this);
             if (trial === errorObject) {
                 hasErrors = true;
-                (errors = errors || []).push(errorObject.e);
+                errors = errors || (errorObject.e instanceof UnsubscriptionError ?
+                    flattenUnsubscriptionErrors(errorObject.e.errors) : [errorObject.e]);
             }
         }
         if (isArray(_subscriptions)) {
@@ -452,7 +457,7 @@ var Subscription = (function () {
                         errors = errors || [];
                         var err = errorObject.e;
                         if (err instanceof UnsubscriptionError) {
-                            errors = errors.concat(err.errors);
+                            errors = errors.concat(flattenUnsubscriptionErrors(err.errors));
                         }
                         else {
                             errors.push(err);
@@ -496,19 +501,20 @@ var Subscription = (function () {
                 sub = new Subscription(teardown);
             case 'object':
                 if (sub.closed || typeof sub.unsubscribe !== 'function') {
-                    break;
+                    return sub;
                 }
                 else if (this.closed) {
                     sub.unsubscribe();
-                }
-                else {
-                    (this._subscriptions || (this._subscriptions = [])).push(sub);
+                    return sub;
                 }
                 break;
             default:
                 throw new Error('unrecognized teardown ' + teardown + ' added to Subscription.');
         }
-        return sub;
+        var childSub = new ChildSubscription(sub, this);
+        this._subscriptions = this._subscriptions || [];
+        this._subscriptions.push(childSub);
+        return childSub;
     };
     /**
      * Removes a Subscription from the internal list of subscriptions that will
@@ -535,6 +541,23 @@ var Subscription = (function () {
     }(new Subscription()));
     return Subscription;
 }());
+var ChildSubscription = (function (_super) {
+    __extends(ChildSubscription, _super);
+    function ChildSubscription(_innerSub, _parent) {
+        _super.call(this);
+        this._innerSub = _innerSub;
+        this._parent = _parent;
+    }
+    ChildSubscription.prototype._unsubscribe = function () {
+        var _a = this, _innerSub = _a._innerSub, _parent = _a._parent;
+        _parent.remove(this);
+        _innerSub.unsubscribe();
+    };
+    return ChildSubscription;
+}(Subscription));
+function flattenUnsubscriptionErrors(errors) {
+    return errors.reduce(function (errs, err) { return errs.concat((err instanceof UnsubscriptionError) ? err.errors : err); }, []);
+}
 
 var empty = {
     closed: true,
@@ -1605,7 +1628,7 @@ var EmptyObservable = (function (_super) {
      * @see {@link of}
      * @see {@link throw}
      *
-     * @param {Scheduler} [scheduler] A {@link Scheduler} to use for scheduling
+     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
      * the emission of the complete notification.
      * @return {Observable} An "empty" Observable: emits only the complete
      * notification.
@@ -1663,8 +1686,8 @@ var ArrayObservable = (function (_super) {
      * This static operator is useful for creating a simple Observable that only
      * emits the arguments given, and the complete notification thereafter. It can
      * be used for composing with other Observables, such as with {@link concat}.
-     * By default, it uses a `null` Scheduler, which means the `next`
-     * notifications are sent synchronously, although with a different Scheduler
+     * By default, it uses a `null` IScheduler, which means the `next`
+     * notifications are sent synchronously, although with a different IScheduler
      * it is possible to determine when those notifications will be delivered.
      *
      * @example <caption>Emit 10, 20, 30, then 'a', 'b', 'c', then start ticking every second.</caption>
@@ -1680,7 +1703,7 @@ var ArrayObservable = (function (_super) {
      * @see {@link throw}
      *
      * @param {...T} values Arguments that represent `next` values to be emitted.
-     * @param {Scheduler} [scheduler] A {@link Scheduler} to use for scheduling
+     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
      * the emissions of the `next` notifications.
      * @return {Observable<T>} An Observable that emits each given input value.
      * @static true
@@ -2075,7 +2098,7 @@ var CombineLatestSubscriber = (function (_super) {
  * source Observable. More than one input Observables may be given as argument.
  * @param {function} [project] An optional function to project the values from
  * the combined latest values into a new value on the output Observable.
- * @param {Scheduler} [scheduler=null] The Scheduler to use for subscribing to
+ * @param {Scheduler} [scheduler=null] The IScheduler to use for subscribing to
  * each input Observable.
  * @return {Observable} An Observable of projected values from the most recent
  * values from each input Observable, or an array of the most recent values from
@@ -2250,7 +2273,7 @@ var MergeAllSubscriber = (function (_super) {
  *
  * @param {Observable} other An input Observable to concatenate after the source
  * Observable. More than one input Observables may be given as argument.
- * @param {Scheduler} [scheduler=null] An optional Scheduler to schedule each
+ * @param {Scheduler} [scheduler=null] An optional IScheduler to schedule each
  * Observable subscription on.
  * @return {Observable} All values of each passed Observable merged into a
  * single Observable, in order, in serial fashion.
@@ -2307,7 +2330,7 @@ function concat$1() {
  * @param {Observable} input1 An input Observable to concatenate with others.
  * @param {Observable} input2 An input Observable to concatenate with others.
  * More than one input Observables may be given as argument.
- * @param {Scheduler} [scheduler=null] An optional Scheduler to schedule each
+ * @param {Scheduler} [scheduler=null] An optional IScheduler to schedule each
  * Observable subscription on.
  * @return {Observable} All values of each passed Observable merged into a
  * single Observable, in order, in serial fashion.
@@ -2567,7 +2590,7 @@ var PromiseObservable = (function (_super) {
      * @see {@link from}
      *
      * @param {Promise<T>} promise The promise to be converted.
-     * @param {Scheduler} [scheduler] An optional Scheduler to use for scheduling
+     * @param {Scheduler} [scheduler] An optional IScheduler to use for scheduling
      * the delivery of the resolved value (or the rejection).
      * @return {Observable<T>} An Observable which wraps the Promise.
      * @static true
@@ -3023,11 +3046,15 @@ var ObserveOnSubscriber = (function (_super) {
         this.delay = delay;
     }
     ObserveOnSubscriber.dispatch = function (arg) {
-        var notification = arg.notification, destination = arg.destination;
+        var notification = arg.notification, destination = arg.destination, subscription = arg.subscription;
         notification.observe(destination);
+        if (subscription) {
+            subscription.unsubscribe();
+        }
     };
     ObserveOnSubscriber.prototype.scheduleMessage = function (notification) {
-        this.add(this.scheduler.schedule(ObserveOnSubscriber.dispatch, this.delay, new ObserveOnMessage(notification, this.destination)));
+        var message = new ObserveOnMessage(notification, this.destination);
+        message.subscription = this.add(this.scheduler.schedule(ObserveOnSubscriber.dispatch, this.delay, message));
     };
     ObserveOnSubscriber.prototype._next = function (value) {
         this.scheduleMessage(Notification.createNext(value));
@@ -3870,7 +3897,7 @@ var IntervalObservable = (function (_super) {
     }
     /**
      * Creates an Observable that emits sequential numbers every specified
-     * interval of time, on a specified Scheduler.
+     * interval of time, on a specified IScheduler.
      *
      * <span class="informal">Emits incremental numbers periodically in time.
      * </span>
@@ -3881,8 +3908,8 @@ var IntervalObservable = (function (_super) {
      * ascending integers, with a constant interval of time of your choosing
      * between those emissions. The first emission is not sent immediately, but
      * only after the first period has passed. By default, this operator uses the
-     * `async` Scheduler to provide a notion of time, but you may pass any
-     * Scheduler to it.
+     * `async` IScheduler to provide a notion of time, but you may pass any
+     * IScheduler to it.
      *
      * @example <caption>Emits ascending numbers, one every second (1000ms)</caption>
      * var numbers = Rx.Observable.interval(1000);
@@ -3893,7 +3920,7 @@ var IntervalObservable = (function (_super) {
      *
      * @param {number} [period=0] The interval size in milliseconds (by default)
      * or the time unit determined by the scheduler's clock.
-     * @param {Scheduler} [scheduler=async] The Scheduler to use for scheduling
+     * @param {Scheduler} [scheduler=async] The IScheduler to use for scheduling
      * the emission of values, and providing a notion of "time".
      * @return {Observable} An Observable that emits a sequential number each time
      * interval.
@@ -3970,7 +3997,7 @@ Observable.interval = interval;
  * Observable. More than one input Observables may be given as argument.
  * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
  * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The Scheduler to use for managing
+ * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
  * concurrency of input Observables.
  * @return {Observable} an Observable that emits items that are the result of
  * every input Observable.
@@ -4037,7 +4064,7 @@ function merge$1() {
  * @param {...Observable} observables Input Observables to merge together.
  * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
  * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The Scheduler to use for managing
+ * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
  * concurrency of input Observables.
  * @return {Observable} an Observable that emits items that are the result of
  * every input Observable.
@@ -4324,7 +4351,7 @@ var PairsObservable = (function (_super) {
     }
     /**
      * Convert an object into an observable sequence of [key, value] pairs
-     * using an optional Scheduler to enumerate the object.
+     * using an optional IScheduler to enumerate the object.
      *
      * @example <caption>Converts a javascript object to an Observable</caption>
      * var obj = {
@@ -4348,7 +4375,7 @@ var PairsObservable = (function (_super) {
      *
      * @param {Object} obj The object to inspect and turn into an
      * Observable sequence.
-     * @param {Scheduler} [scheduler] An optional Scheduler to run the
+     * @param {Scheduler} [scheduler] An optional IScheduler to run the
      * enumeration of the input sequence on.
      * @returns {(Observable<Array<string | T>>)} An observable sequence of
      * [key, value] pairs from the object.
@@ -4402,8 +4429,8 @@ var RangeObservable = (function (_super) {
      *
      * `range` operator emits a range of sequential integers, in order, where you
      * select the `start` of the range and its `length`. By default, uses no
-     * Scheduler and just delivers the notifications synchronously, but may use
-     * an optional Scheduler to regulate those deliveries.
+     * IScheduler and just delivers the notifications synchronously, but may use
+     * an optional IScheduler to regulate those deliveries.
      *
      * @example <caption>Emits the numbers 1 to 10</caption>
      * var numbers = Rx.Observable.range(1, 10);
@@ -4414,7 +4441,7 @@ var RangeObservable = (function (_super) {
      *
      * @param {number} [start=0] The value of the first integer in the sequence.
      * @param {number} [count=0] The number of sequential integers to generate.
-     * @param {Scheduler} [scheduler] A {@link Scheduler} to use for scheduling
+     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
      * the emissions of the notifications.
      * @return {Observable} An Observable of numbers that emits a finite range of
      * sequential integers.
@@ -4570,7 +4597,7 @@ var ErrorObservable = (function (_super) {
      * @see {@link of}
      *
      * @param {any} error The particular Error to pass to the error notification.
-     * @param {Scheduler} [scheduler] A {@link Scheduler} to use for scheduling
+     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
      * the emission of the error notification.
      * @return {Observable} An error Observable: emits only the error notification
      * using the given error argument.
@@ -4647,8 +4674,8 @@ var TimerObservable = (function (_super) {
      * integers, with a constant interval of time, `period` of your choosing
      * between those emissions. The first emission happens after the specified
      * `initialDelay`. The initial delay may be a {@link Date}. By default, this
-     * operator uses the `async` Scheduler to provide a notion of time, but you
-     * may pass any Scheduler to it. If `period` is not specified, the output
+     * operator uses the `async` IScheduler to provide a notion of time, but you
+     * may pass any IScheduler to it. If `period` is not specified, the output
      * Observable emits only one value, `0`. Otherwise, it emits an infinite
      * sequence.
      *
@@ -4667,7 +4694,7 @@ var TimerObservable = (function (_super) {
      * emitting the first value of `0`.
      * @param {number} [period] The period of time between emissions of the
      * subsequent numbers.
-     * @param {Scheduler} [scheduler=async] The Scheduler to use for scheduling
+     * @param {Scheduler} [scheduler=async] The IScheduler to use for scheduling
      * the emission of values, and providing a notion of "time".
      * @return {Observable} An Observable that emits a `0` after the
      * `initialDelay` and ever increasing numbers after each `period` of time
@@ -4723,6 +4750,30 @@ function zipProto() {
 }
 /* tslint:enable:max-line-length */
 /**
+ * Combines multiple Observables to create an Observable whose values are calculated from the values, in order, of each
+ * of its input Observables.
+ *
+ * If the latest parameter is a function, this function is used to compute the created value from the input values.
+ * Otherwise, an array of the input values is returned.
+ *
+ * @example <caption>Combine age and name from different sources</caption>
+ *
+ * let age$ = Observable.of<number>(27, 25, 29);
+ * let name$ = Observable.of<string>('Foo', 'Bar', 'Beer');
+ * let isDev$ = Observable.of<boolean>(true, true, false);
+ *
+ * Observable
+ *     .zip(age$,
+ *          name$,
+ *          isDev$,
+ *          (age: number, name: string, isDev: boolean) => ({ age, name, isDev }))
+ *     .subscribe(x => console.log(x));
+ *
+ * // outputs
+ * // { age: 7, name: 'Foo', isDev: true }
+ * // { age: 5, name: 'Bar', isDev: true }
+ * // { age: 9, name: 'Beer', isDev: false }
+ *
  * @param observables
  * @return {Observable<R>}
  * @static true
@@ -7312,7 +7363,7 @@ Observable.prototype.debounce = debounce;
  * This is a rate-limiting operator, because it is impossible for more than one
  * value to be emitted in any time window of duration `dueTime`, but it is also
  * a delay-like operator since output emissions do not occur at the same time as
- * they did on the source Observable. Optionally takes a {@link Scheduler} for
+ * they did on the source Observable. Optionally takes a {@link IScheduler} for
  * managing timers.
  *
  * @example <caption>Emit the most recent click after a burst of clicks</caption>
@@ -7330,7 +7381,7 @@ Observable.prototype.debounce = debounce;
  * unit determined internally by the optional `scheduler`) for the window of
  * time required to wait for emission silence before emitting the most recent
  * source value.
- * @param {Scheduler} [scheduler=async] The {@link Scheduler} to use for
+ * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
  * managing the timers that handle the timeout for each value.
  * @return {Observable} An Observable that delays the emissions of the source
  * Observable by the specified `dueTime`, and may drop some values if they occur
@@ -7504,7 +7555,7 @@ Observable.prototype.defaultIfEmpty = defaultIfEmpty;
  *
  * @param {number|Date} delay The delay duration in milliseconds (a `number`) or
  * a `Date` until which the emission of the source items is delayed.
- * @param {Scheduler} [scheduler=async] The Scheduler to use for
+ * @param {Scheduler} [scheduler=async] The IScheduler to use for
  * managing the timers that handle the time-shift for each item.
  * @return {Observable} An Observable that delays the emissions of the source
  * Observable by the specified timeout or Date.
@@ -7811,14 +7862,43 @@ var Set = root.Set || minimalSetImpl();
 
 /**
  * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from previous items.
+ *
  * If a keySelector function is provided, then it will project each value from the source observable into a new value that it will
  * check for equality with previously projected values. If a keySelector function is not provided, it will use each value from the
  * source observable directly with an equality check against previous values.
+ *
  * In JavaScript runtimes that support `Set`, this operator will use a `Set` to improve performance of the distinct value checking.
+ *
  * In other runtimes, this operator will use a minimal implementation of `Set` that relies on an `Array` and `indexOf` under the
  * hood, so performance will degrade as more values are checked for distinction. Even in newer browsers, a long-running `distinct`
  * use might result in memory leaks. To help alleviate this in some scenarios, an optional `flushes` parameter is also provided so
  * that the internal `Set` can be "flushed", basically clearing it of values.
+ *
+ * @example <caption>A simple example with numbers</caption>
+ * Observable.of(1, 1, 2, 2, 2, 1, 2, 3, 4, 3, 2, 1)
+ *   .distinct()
+ *   .subscribe(x => console.log(x)); // 1, 2, 3, 4
+ *
+ * @example <caption>An example using a keySelector function</caption>
+ * interface Person {
+ *    age: number,
+ *    name: string
+ * }
+ *
+ * Observable.of<Person>(
+ *     { age: 4, name: 'Foo'},
+ *     { age: 7, name: 'Bar'},
+ *     { age: 5, name: 'Foo'})
+ *     .distinct((p: Person) => p.name)
+ *     .subscribe(x => console.log(x));
+ *
+ * // displays:
+ * // { age: 4, name: 'Foo' }
+ * // { age: 7, name: 'Bar' }
+ *
+ * @see {@link distinctUntilChanged}
+ * @see {@link distinctUntilKeyChanged}
+ *
  * @param {function} [keySelector] optional function to select which value you want to check as distinct.
  * @param {Observable} [flushes] optional Observable for flushing the internal HashSet of the operator.
  * @return {Observable} an Observable that emits items from the source Observable with distinct values.
@@ -7894,8 +7974,38 @@ Observable.prototype.distinct = distinct;
 /* tslint:disable:max-line-length */
 /**
  * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from the previous item.
+ *
  * If a comparator function is provided, then it will be called for each item to test for whether or not that value should be emitted.
+ *
  * If a comparator function is not provided, an equality check is used by default.
+ *
+ * @example <caption>A simple example with numbers</caption>
+ * Observable.of(1, 1, 2, 2, 2, 1, 1, 2, 3, 3, 4)
+ *   .distinctUntilChanged()
+ *   .subscribe(x => console.log(x)); // 1, 2, 1, 2, 3, 4
+ *
+ * @example <caption>An example using a compare function</caption>
+ * interface Person {
+ *    age: number,
+ *    name: string
+ * }
+ *
+ * Observable.of<Person>(
+ *     { age: 4, name: 'Foo'},
+ *     { age: 7, name: 'Bar'},
+ *     { age: 5, name: 'Foo'})
+ *     { age: 6, name: 'Foo'})
+ *     .distinctUntilChanged((p: Person, q: Person) => p.name === q.name)
+ *     .subscribe(x => console.log(x));
+ *
+ * // displays:
+ * // { age: 4, name: 'Foo' }
+ * // { age: 7, name: 'Bar' }
+ * // { age: 5, name: 'Foo' }
+ *
+ * @see {@link distinct}
+ * @see {@link distinctUntilKeyChanged}
+ *
  * @param {function} [compare] optional comparison function called to test if an item is distinct from the previous item in the source.
  * @return {Observable} an Observable that emits items from the source Observable with distinct values.
  * @method distinctUntilChanged
@@ -7965,8 +8075,54 @@ Observable.prototype.distinctUntilChanged = distinctUntilChanged;
 /**
  * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from the previous item,
  * using a property accessed by using the key provided to check if the two items are distinct.
+ *
  * If a comparator function is provided, then it will be called for each item to test for whether or not that value should be emitted.
+ *
  * If a comparator function is not provided, an equality check is used by default.
+ *
+ * @example <caption>An example comparing the name of persons</caption>
+ *
+ *  interface Person {
+ *     age: number,
+ *     name: string
+ *  }
+ *
+ * Observable.of<Person>(
+ *     { age: 4, name: 'Foo'},
+ *     { age: 7, name: 'Bar'},
+ *     { age: 5, name: 'Foo'},
+ *     { age: 6, name: 'Foo'})
+ *     .distinctUntilKeyChanged('name')
+ *     .subscribe(x => console.log(x));
+ *
+ * // displays:
+ * // { age: 4, name: 'Foo' }
+ * // { age: 7, name: 'Bar' }
+ * // { age: 5, name: 'Foo' }
+ *
+ * @example <caption>An example comparing the first letters of the name</caption>
+ *
+ * interface Person {
+ *     age: number,
+ *     name: string
+ *  }
+ *
+ * Observable.of<Person>(
+ *     { age: 4, name: 'Foo1'},
+ *     { age: 7, name: 'Bar'},
+ *     { age: 5, name: 'Foo2'},
+ *     { age: 6, name: 'Foo3'})
+ *     .distinctUntilKeyChanged('name', (x: string, y: string) => x.substring(0, 3) === y.substring(0, 3))
+ *     .subscribe(x => console.log(x));
+ *
+ * // displays:
+ * // { age: 4, name: 'Foo1' }
+ * // { age: 7, name: 'Bar' }
+ * // { age: 5, name: 'Foo2' }
+ *
+ * @see {@link distinct}
+ * @see {@link distinctUntilChanged}
+ *
  * @param {string} key string key for object property lookup on each item.
  * @param {function} [compare] optional comparison function called to test if an item is distinct from the previous item in the source.
  * @return {Observable} an Observable that emits items from the source Observable with distinct values based on the key specified.
@@ -8343,7 +8499,7 @@ Observable.prototype.exhaustMap = exhaustMap;
  * returns an Observable.
  * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
  * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The Scheduler to use for subscribing to
+ * @param {Scheduler} [scheduler=null] The IScheduler to use for subscribing to
  * each projected inner Observable.
  * @return {Observable} An Observable that emits the source values and also
  * result of applying the projection function to each value emitted on the
@@ -9488,7 +9644,7 @@ Observable.prototype.audit = audit;
  * the time unit determined internally by the optional `scheduler`) has passed,
  * the timer is disabled, then the most recent source value is emitted on the
  * output Observable, and this process repeats for the next source value.
- * Optionally takes a {@link Scheduler} for managing timers.
+ * Optionally takes a {@link IScheduler} for managing timers.
  *
  * @example <caption>Emit clicks at a rate of at most one click per second</caption>
  * var clicks = Rx.Observable.fromEvent(document, 'click');
@@ -9504,7 +9660,7 @@ Observable.prototype.audit = audit;
  * @param {number} duration Time to wait before emitting the most recent source
  * value, measured in milliseconds or the time unit determined internally
  * by the optional `scheduler`.
- * @param {Scheduler} [scheduler=async] The {@link Scheduler} to use for
+ * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
  * managing the timers that handle the rate-limiting behavior.
  * @return {Observable<T>} An Observable that performs rate-limiting of
  * emissions from the source Observable.
@@ -9693,6 +9849,12 @@ Observable.prototype.letBind = letProto;
 
 /**
  * Returns an Observable that emits whether or not every item of the source satisfies the condition specified.
+ *
+ * @example <caption>A simple example emitting true if all elements are less than 5, false otherwise</caption>
+ *  Observable.of(1, 2, 3, 4, 5, 6)
+ *     .every(x => x < 5)
+ *     .subscribe(x => console.log(x)); // -> false
+ *
  * @param {function} predicate a function for determining if an item meets a specified condition.
  * @param {any} [thisArg] optional object to use for `this` in the callback
  * @return {Observable} an Observable of booleans that determines if all items of the source Observable meet the condition specified.
@@ -10009,14 +10171,33 @@ var ReduceSubscriber = (function (_super) {
 }(Subscriber));
 
 /**
- * The Max operator operates on an Observable that emits numbers (or items that can be evaluated as numbers),
- * and when source Observable completes it emits a single item: the item with the largest number.
+ * The Max operator operates on an Observable that emits numbers (or items that can be compared with a provided function),
+ * and when source Observable completes it emits a single item: the item with the largest value.
  *
  * <img src="./img/max.png" width="100%">
  *
+ * @example <caption>Get the maximal value of a series of numbers</caption>
+ * Rx.Observable.of(5, 4, 7, 2, 8)
+ *   .max()
+ *   .subscribe(x => console.log(x)); // -> 8
+ *
+ * @example <caption>Use a comparer function to get the maximal item</caption>
+ * interface Person {
+ *   age: number,
+ *   name: string
+ * }
+ * Observable.of<Person>({age: 7, name: 'Foo'},
+ *                       {age: 5, name: 'Bar'},
+ *                       {age: 9, name: 'Beer'})
+ *           .max<Person>((a: Person, b: Person) => a.age < b.age ? -1 : 1)
+ *           .subscribe((x: Person) => console.log(x.name)); // -> 'Beer'
+ * }
+ *
+ * @see {@link min}
+ *
  * @param {Function} optional comparer function that it will use instead of its default to compare the value of two
  * items.
- * @return {Observable} an Observable that emits item with the largest number.
+ * @return {Observable} an Observable that emits item with the largest value.
  * @method max
  * @owner Observable
  */
@@ -10135,13 +10316,32 @@ var MergeScanSubscriber = (function (_super) {
 Observable.prototype.mergeScan = mergeScan;
 
 /**
- * The Min operator operates on an Observable that emits numbers (or items that can be evaluated as numbers),
- * and when source Observable completes it emits a single item: the item with the smallest number.
+ * The Min operator operates on an Observable that emits numbers (or items that can be compared with a provided function),
+ * and when source Observable completes it emits a single item: the item with the smallest value.
  *
  * <img src="./img/min.png" width="100%">
  *
+ * @example <caption>Get the minimal value of a series of numbers</caption>
+ * Rx.Observable.of(5, 4, 7, 2, 8)
+ *   .min()
+ *   .subscribe(x => console.log(x)); // -> 2
+ *
+ * @example <caption>Use a comparer function to get the minimal item</caption>
+ * interface Person {
+ *   age: number,
+ *   name: string
+ * }
+ * Observable.of<Person>({age: 7, name: 'Foo'},
+ *                       {age: 5, name: 'Bar'},
+ *                       {age: 9, name: 'Beer'})
+ *           .min<Person>( (a: Person, b: Person) => a.age < b.age ? -1 : 1)
+ *           .subscribe((x: Person) => console.log(x.name)); // -> 'Bar'
+ * }
+ *
+ * @see {@link max}
+ *
  * @param {Function} optional comparer function that it will use instead of its default to compare the value of two items.
- * @return {Observable<R>} an Observable that emits item with the smallest number.
+ * @return {Observable<R>} an Observable that emits item with the smallest value.
  * @method min
  * @owner Observable
  */
@@ -10657,11 +10857,11 @@ Observable.prototype.reduce = reduce;
 
 /**
  * Returns an Observable that repeats the stream of items emitted by the source Observable at most count times,
- * on a particular Scheduler.
+ * on a particular IScheduler.
  *
  * <img src="./img/repeat.png" width="100%">
  *
- * @param {Scheduler} [scheduler] the Scheduler to emit the items on.
+ * @param {Scheduler} [scheduler] the IScheduler to emit the items on.
  * @param {number} [count] the number of times the source Observable items are repeated, a count of 0 will yield
  * an empty Observable.
  * @return {Observable} an Observable that repeats the stream of items emitted by the source Observable at most
@@ -10728,13 +10928,13 @@ Observable.prototype.repeat = repeat;
  * A `complete` will cause the emission of the Throwable that cause the complete to the Observable returned from
  * notificationHandler. If that Observable calls onComplete or `complete` then retry will call `complete` or `error`
  * on the child subscription. Otherwise, this Observable will resubscribe to the source observable, on a particular
- * Scheduler.
+ * IScheduler.
  *
  * <img src="./img/repeatWhen.png" width="100%">
  *
  * @param {notificationHandler} receives an Observable of notifications with which a user can `complete` or `error`,
  * aborting the retry.
- * @param {scheduler} the Scheduler on which to subscribe to the source Observable.
+ * @param {scheduler} the IScheduler on which to subscribe to the source Observable.
  * @return {Observable} the source Observable modified with retry logic.
  * @method repeatWhen
  * @owner Observable
@@ -10887,13 +11087,13 @@ Observable.prototype.retry = retry;
  * An `error` will cause the emission of the Throwable that cause the error to the Observable returned from
  * notificationHandler. If that Observable calls onComplete or `error` then retry will call `complete` or `error`
  * on the child subscription. Otherwise, this Observable will resubscribe to the source observable, on a particular
- * Scheduler.
+ * IScheduler.
  *
  * <img src="./img/retryWhen.png" width="100%">
  *
  * @param {notificationHandler} receives an Observable of notifications with which a user can `complete` or `error`,
  * aborting the retry.
- * @param {scheduler} the Scheduler on which to subscribe to the source Observable.
+ * @param {scheduler} the IScheduler on which to subscribe to the source Observable.
  * @return {Observable} the source Observable modified with retry logic.
  * @method retryWhen
  * @owner Observable
@@ -11088,7 +11288,7 @@ Observable.prototype.sample = sample;
  *
  * @param {number} period The sampling period expressed in milliseconds or the
  * time unit determined internally by the optional `scheduler`.
- * @param {Scheduler} [scheduler=async] The {@link Scheduler} to use for
+ * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
  * managing the timers that handle the sampling.
  * @return {Observable<T>} An Observable that emits the results of sampling the
  * values emitted by the source Observable at the specified time interval.
@@ -12052,12 +12252,12 @@ var SubscribeOnObservable = (function (_super) {
 }(Observable));
 
 /**
- * Asynchronously subscribes Observers to this Observable on the specified Scheduler.
+ * Asynchronously subscribes Observers to this Observable on the specified IScheduler.
  *
  * <img src="./img/subscribeOn.png" width="100%">
  *
- * @param {Scheduler} the Scheduler to perform subscription actions on.
- * @return {Observable<T>} the source Observable modified so that its subscriptions happen on the specified Scheduler
+ * @param {Scheduler} the IScheduler to perform subscription actions on.
+ * @return {Observable<T>} the source Observable modified so that its subscriptions happen on the specified IScheduler
  .
  * @method subscribeOn
  * @owner Observable
@@ -12885,7 +13085,7 @@ Observable.prototype.throttle = throttle;
  * is enabled. After `duration` milliseconds (or the time unit determined
  * internally by the optional `scheduler`) has passed, the timer is disabled,
  * and this process repeats for the next source value. Optionally takes a
- * {@link Scheduler} for managing timers.
+ * {@link IScheduler} for managing timers.
  *
  * @example <caption>Emit clicks at a rate of at most one click per second</caption>
  * var clicks = Rx.Observable.fromEvent(document, 'click');
@@ -12901,7 +13101,7 @@ Observable.prototype.throttle = throttle;
  * @param {number} duration Time to wait before emitting another value after
  * emitting the last value, measured in milliseconds or the time unit determined
  * internally by the optional `scheduler`.
- * @param {Scheduler} [scheduler=async] The {@link Scheduler} to use for
+ * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
  * managing the timers that handle the sampling.
  * @return {Observable<T>} An Observable that performs the throttle operation to
  * limit the rate of emissions from the source.
@@ -14298,8 +14498,16 @@ var VirtualAction = (function (_super) {
     }
     VirtualAction.prototype.schedule = function (state, delay) {
         if (delay === void 0) { delay = 0; }
-        return !this.id ?
-            _super.prototype.schedule.call(this, state, delay) : this.add(new VirtualAction(this.scheduler, this.work)).schedule(state, delay);
+        if (!this.id) {
+            return _super.prototype.schedule.call(this, state, delay);
+        }
+        // If an action is rescheduled, we save allocations by mutating its state,
+        // pushing it to the end of the scheduler queue, and recycling the action.
+        // But since the VirtualTimeScheduler is used for testing, VirtualActions
+        // must be immutable so they can be inspected later.
+        var action = new VirtualAction(this.scheduler, this.work);
+        this.add(action);
+        return action.schedule(state, delay);
     };
     VirtualAction.prototype.requestAsyncId = function (scheduler, id, delay) {
         if (delay === void 0) { delay = 0; }

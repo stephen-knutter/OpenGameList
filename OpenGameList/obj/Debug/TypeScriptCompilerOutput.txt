@@ -13,3 +13,12 @@ C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGame
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.component.js
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\app.module.js
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\asp-w-angular-2\OpenGameList\OpenGameList\src\OpenGameList\Scripts\app\main.js
+C:\Users\sknutter.ADGORILLA\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Scripts\app\app.component.js
+C:\Users\sknutter.ADGORILLA\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Scripts\app\app.module.js
+C:\Users\sknutter.ADGORILLA\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Scripts\app\main.js
+C:\Users\sknutter.ADGORILLA\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Scripts\app\app.component.js
+C:\Users\sknutter.ADGORILLA\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Scripts\app\item.js
+C:\Users\sknutter.ADGORILLA\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Scripts\app\item.service.js
+C:\Users\sknutter.ADGORILLA\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Scripts\app\item-list.component.js
+C:\Users\sknutter.ADGORILLA\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Scripts\app\app.module.js
+C:\Users\sknutter.ADGORILLA\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Scripts\app\main.js

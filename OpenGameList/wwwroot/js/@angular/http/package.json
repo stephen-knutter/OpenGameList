@@ -2,7 +2,7 @@
   "_args": [
     [
       "@angular/http@2.0.0-rc.5",
-      "C:\\Users\\sknutter\\Documents\\Visual Studio 2015\\Projects\\asp-w-angular-2\\OpenGameList\\OpenGameList\\src\\OpenGameList"
+      "C:\\Users\\sknutter.ADGORILLA\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList"
     ]
   ],
   "_from": "@angular/http@2.0.0-rc.5",
@@ -35,7 +35,7 @@
   "_shasum": "3c5bc0552ea385e9b7fd6f9ddb09b3d9d30b2ca7",
   "_shrinkwrap": null,
   "_spec": "@angular/http@2.0.0-rc.5",
-  "_where": "C:\\Users\\sknutter\\Documents\\Visual Studio 2015\\Projects\\asp-w-angular-2\\OpenGameList\\OpenGameList\\src\\OpenGameList",
+  "_where": "C:\\Users\\sknutter.ADGORILLA\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList",
   "author": {
     "name": "angular"
   },

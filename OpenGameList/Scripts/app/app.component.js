@@ -20,13 +20,14 @@ System.register(["@angular/core"], function (exports_1, context_1) {
         execute: function () {
             AppComponent = (function () {
                 function AppComponent() {
+                    this.title = "OpenGameList";
                 }
                 return AppComponent;
             }());
             AppComponent = __decorate([
                 core_1.Component({
                     selector: "opengamelist",
-                    template: "<h1>OpenGameList</h1><div>Finally working!...</div>"
+                    template: "\n    <h1>{{title}}</h1>\n    \n    <item-list></item-list>\n  "
                 }),
                 __metadata("design:paramtypes", [])
             ], AppComponent);
