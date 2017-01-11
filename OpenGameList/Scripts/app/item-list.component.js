@@ -26,12 +26,25 @@ System.register(["@angular/core", "./item.service"], function (exports_1, contex
                     this.itemService = itemService;
                 }
                 ItemListComponent.prototype.ngOnInit = function () {
-                    this.getLatest();
-                };
-                ItemListComponent.prototype.getLatest = function () {
                     var _this = this;
-                    this.itemService.getLatest()
-                        .subscribe(function (latestItems) { return _this.items = latestItems; }, function (error) { return _this.errorMessage = error; });
+                    console.log("ItemListComponent instantiated with the following type: " + this.class);
+                    var s = null;
+                    switch (this.class) {
+                        case "most-viewed":
+                            this.title = "Most Viewed Items";
+                            s = this.itemService.getMostViewed();
+                            break;
+                        case "random":
+                            this.title = "Random Items";
+                            s = this.itemService.getRandom(1);
+                            break;
+                        case "latest":
+                        default:
+                            this.title = "Latest Items";
+                            s = this.itemService.getLatest();
+                            break;
+                    }
+                    s.subscribe(function (items) { return _this.items = items; }, function (error) { return _this.errorMessage = error; });
                 };
                 ItemListComponent.prototype.onSelect = function (item) {
                     this.selectedItem = item;
@@ -39,10 +52,14 @@ System.register(["@angular/core", "./item.service"], function (exports_1, contex
                 };
                 return ItemListComponent;
             }());
+            __decorate([
+                core_1.Input(),
+                __metadata("design:type", String)
+            ], ItemListComponent.prototype, "class", void 0);
             ItemListComponent = __decorate([
                 core_1.Component({
                     selector: "item-list",
-                    template: "<h2>Latest Items:</h2>\n        <ul class=\"items\">\n           <li *ngFor=\"let item of items\"\n                [class.selected]=\"item === selectedItem\"\n                (click)=\"onSelect(item)\">\n                    <span>{{item.Title}}</span>\n           </li>\n        </ul>\n    ",
+                    template: "<h2>Latest Items:</h2>\n        <ul class=\"items\">\n           <li *ngFor=\"let item of items\"\n                [class.selected]=\"item === selectedItem\"\n                (click)=\"onSelect(item)\">\n                    <span>{{item.Title}}</span>\n           </li>\n        </ul>\n        <item-detail *ngIf=\"selectedItem\" [item]=\"selectedItem\"></item-detail>\n    ",
                     styles: ["\n        ul.items li {\n            cursor: pointer;\n        }\n        ul.items li.selected {\n            background-color: #dddddd;\n        }\n    "]
                 }),
                 __metadata("design:paramtypes", [item_service_1.ItemService])

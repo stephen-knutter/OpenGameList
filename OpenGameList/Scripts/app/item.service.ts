@@ -28,9 +28,9 @@ export class ItemService {
     }
 
     // calls the [GET] /api/items/GetRandom/{n} Web API method to retrieve n random items.
-    getRandom(id: number) {
-        if (id == null) { throw new Error("id is required"); }
-        var url = this.baseUrl + id;
+    getRandom(id?: number) {
+        var url = this.baseUrl + "GetRandom/";
+        if (id) { url += id; }
         return this.http.get(url)
             .map(res => <Item>res.json())
             .catch(this.handleError);
