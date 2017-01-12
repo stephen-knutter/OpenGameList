@@ -1,4 +1,4 @@
-﻿import { Component, Input } from "@angular/core";
+﻿import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ItemService } from "./item.service";
 import { Item } from "./item";
@@ -47,9 +47,9 @@ export class ItemDetailComponent {
     }
 
     ngOnInit() {
-        var id = +this.activatedRoute.params['id'];
+        var id = this.activatedRoute.snapshot.params["id"];
         if (id) {
-            this.itemService.get(id).subscribe(item => this.item = item);
+            this.itemService.getById(id).subscribe(item => this.item = item);
             console.log(this.item);
         } else {
             console.log("Invalid id: routing back to home...");

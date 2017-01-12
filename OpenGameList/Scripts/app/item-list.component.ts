@@ -6,7 +6,7 @@ import { ItemService } from "./item.service";
 @Component({
     selector: "item-list",
     template: 
-        `<h2>{{title}}</h2>
+     `<h2>{{title}}</h2>
         <ul class="items">
            <li *ngFor="let item of items"
                 [class.selected]="item === selectedItem"

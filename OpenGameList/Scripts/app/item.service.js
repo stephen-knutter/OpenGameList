@@ -29,6 +29,15 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function 
                     this.http = http;
                     this.baseUrl = "api/items/"; // web api URL
                 }
+                ItemService.prototype.getById = function (id) {
+                    if (id == null) {
+                        throw new Error("id is required");
+                    }
+                    var url = this.baseUrl + id;
+                    return this.http.get(url)
+                        .map(function (response) { return response.json(); })
+                        .catch(this.handleError);
+                };
                 // calls the [GET] /api/items/GetLatest/{n} Web API method to retrieve latest items.
                 ItemService.prototype.getLatest = function (num) {
                     var url = this.baseUrl + "GetLatest/";
@@ -51,10 +60,10 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function 
                 };
                 // calls the [GET] /api/items/GetRandom/{n} Web API method to retrieve n random items.
                 ItemService.prototype.getRandom = function (id) {
-                    if (id == null) {
-                        throw new Error("id is required");
+                    var url = this.baseUrl + "GetRandom/";
+                    if (id) {
+                        url += id;
                     }
-                    var url = this.baseUrl + id;
                     return this.http.get(url)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);

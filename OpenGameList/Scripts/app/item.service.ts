@@ -9,7 +9,7 @@ export class ItemService {
 
     private baseUrl = "api/items/"; // web api URL
 
-    get(id: number) {
+    getById(id: number) {
         if (id == null) { throw new Error("id is required"); }
         var url = this.baseUrl + id;
         return this.http.get(url)
