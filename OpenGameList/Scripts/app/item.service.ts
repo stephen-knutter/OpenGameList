@@ -9,6 +9,14 @@ export class ItemService {
 
     private baseUrl = "api/items/"; // web api URL
 
+    get(id: number) {
+        if (id == null) { throw new Error("id is required"); }
+        var url = this.baseUrl + id;
+        return this.http.get(url)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
     // calls the [GET] /api/items/GetLatest/{n} Web API method to retrieve latest items.
     getLatest(num?: number) {
         var url = this.baseUrl + "GetLatest/";
