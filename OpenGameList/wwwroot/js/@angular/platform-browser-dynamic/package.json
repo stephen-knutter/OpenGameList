@@ -2,7 +2,7 @@
   "_args": [
     [
       "@angular/platform-browser-dynamic@2.0.0-rc.5",
-      "C:\\Users\\sknutter.ADGORILLA\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList"
+      "C:\\Users\\sknutter\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList"
     ]
   ],
   "_from": "@angular/platform-browser-dynamic@2.0.0-rc.5",
@@ -35,7 +35,7 @@
   "_shasum": "4a5362679a9378600a1cc012030f2bc51555f530",
   "_shrinkwrap": null,
   "_spec": "@angular/platform-browser-dynamic@2.0.0-rc.5",
-  "_where": "C:\\Users\\sknutter.ADGORILLA\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList",
+  "_where": "C:\\Users\\sknutter\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList",
   "author": {
     "name": "angular"
   },

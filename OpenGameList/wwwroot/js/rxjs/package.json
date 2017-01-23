@@ -1,11 +1,11 @@
 {
   "_args": [
     [
-      "rxjs@^5.0.2",
-      "C:\\Users\\sknutter.ADGORILLA\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList"
+      "rxjs@^5.0.3",
+      "C:\\Users\\sknutter\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList"
     ]
   ],
-  "_from": "rxjs@>=5.0.2-0 <6.0.0-0",
+  "_from": "rxjs@>=5.0.3-0 <6.0.0-0",
   "_id": "rxjs@5.0.3",
   "_inCache": true,
   "_location": "/rxjs",
@@ -22,10 +22,10 @@
   "_phantomChildren": {},
   "_requested": {
     "name": "rxjs",
-    "raw": "rxjs@^5.0.2",
-    "rawSpec": "^5.0.2",
+    "raw": "rxjs@^5.0.3",
+    "rawSpec": "^5.0.3",
     "scope": null,
-    "spec": ">=5.0.2-0 <6.0.0-0",
+    "spec": ">=5.0.3-0 <6.0.0-0",
     "type": "range"
   },
   "_requiredBy": [
@@ -34,8 +34,8 @@
   "_resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.0.3.tgz",
   "_shasum": "fc8bdf464ebf938812748e4196788f392fef9754",
   "_shrinkwrap": null,
-  "_spec": "rxjs@^5.0.2",
-  "_where": "C:\\Users\\sknutter.ADGORILLA\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList",
+  "_spec": "rxjs@^5.0.3",
+  "_where": "C:\\Users\\sknutter\\Documents\\Visual Studio 2015\\Projects\\OpenGameList\\OpenGameList",
   "author": {
     "email": "blesh@netflix.com",
     "name": "Ben Lesh"

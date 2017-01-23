@@ -11,5 +11,5 @@
 })
 
 export class AboutComponent {
-    title = "About"
+    title = "About";
 }
