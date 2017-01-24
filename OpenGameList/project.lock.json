@@ -2103,6 +2103,15 @@
         "runtime": {
           "lib/net45/_._": {}
         }
+      },
+      "TinyMapper/2.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net45/TinyMapper.dll": {}
+        },
+        "runtime": {
+          "lib/net45/TinyMapper.dll": {}
+        }
       }
     }
   },
@@ -6139,6 +6148,19 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
       ]
+    },
+    "TinyMapper/2.0.8": {
+      "sha512": "ZI2Tot9B/F2Cfr/pius39a038ui2INVknUzt3EL7O1ygZUAfhxy8m1OkPGLxQOxIiczn+YTWJN/fM3FPnoUJIw==",
+      "type": "package",
+      "path": "TinyMapper/2.0.8",
+      "files": [
+        "TinyMapper.2.0.8.nupkg.sha512",
+        "TinyMapper.nuspec",
+        "lib/net30/TinyMapper.dll",
+        "lib/net35/TinyMapper.dll",
+        "lib/net40/TinyMapper.dll",
+        "lib/net45/TinyMapper.dll"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -6165,7 +6187,8 @@
       "Microsoft.Extensions.Logging.Debug >= 1.0.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.0.0",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0",
-      "Newtonsoft.Json >= 9.0.1"
+      "Newtonsoft.Json >= 9.0.1",
+      "TinyMapper >= 2.0.8"
     ],
     ".NETFramework,Version=v4.5.2": []
   },

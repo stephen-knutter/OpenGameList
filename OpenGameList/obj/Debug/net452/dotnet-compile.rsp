@@ -178,6 +178,7 @@ C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameLis
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Controllers\ItemsController.cs
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Controllers\ValuesController.cs
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Data\ApplicationDbContext.cs
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Data\DbSeeder.cs
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Data\Comments\Comment.cs
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Data\Items\Item.cs
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Data\Migrations\20170123180735_Initial.cs

@@ -6,18 +6,34 @@ using Microsoft.AspNetCore.Mvc;
 using OpenGameList.ViewModels;
 using Newtonsoft.Json;
 
+using OpenGameList.Data;
+using OpenGameList.Data.Items;
+using Nelibur.ObjectMapper;
+
 namespace OpenGameList.Controllers
 {
   [Route("api/[controller]")]
   public class ItemsController : Controller
   {
-    #region RESTful Conventions
-    /// <summary>
-    /// GET: api/items
-    /// </summary>
-    /// <returns>Nothing: this method will raise a HttpNotFound HTTP
-    /// exception, since we're not supporting this API call.</returns>
-    [HttpGet()]
+        #region Private Fields
+        private ApplicationDbContext DbContext;
+        #endregion Private Fields
+
+        #region Contructor
+        public ItemsController(ApplicationDbContext context)
+        {
+            // Dependency Injection
+            DbContext = context;
+        } 
+        #endregion Constructor
+
+        #region RESTful Conventions
+        /// <summary>
+        /// GET: api/items
+        /// </summary>
+        /// <returns>Nothing: this method will raise a HttpNotFound HTTP
+        /// exception, since we're not supporting this API call.</returns>
+        [HttpGet()]
     public IActionResult Get()
     {
       return NotFound(new { Error = "not found" });
