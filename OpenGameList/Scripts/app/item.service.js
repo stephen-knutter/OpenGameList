@@ -27,6 +27,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function 
             ItemService = (function () {
                 function ItemService(http) {
                     this.http = http;
+                    // private Data: { Latest: Item[], MostViewed: Item[], Random: Item[] };
                     this.baseUrl = "api/items/"; // web api URL
                 }
                 ItemService.prototype.getById = function (id) {
@@ -67,6 +68,43 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function 
                     return this.http.get(url)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
+                };
+                // calls the [GET] /api/items/{id} Web API method to retrieve the item with the given id.
+                ItemService.prototype.get = function (id) {
+                    if (id == null)
+                        throw new Error("id is required");
+                    var url = this.baseUrl + id;
+                    return this.http.get(url)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.handleError);
+                };
+                // calls the [POST] /api/items/ Web API method to add a new item.
+                ItemService.prototype.add = function (item) {
+                    var url = this.baseUrl;
+                    return this.http.post(url, JSON.stringify(item), this.getRequestOptions())
+                        .map(function (response) { return response.json(); })
+                        .catch(this.handleError);
+                };
+                // calls the [PUT] /api/items/{id} Web API method to update an existing item.
+                ItemService.prototype.update = function (item) {
+                    var url = this.baseUrl + item.Id;
+                    return this.http.put(url, JSON.stringify(item), this.getRequestOptions())
+                        .map(function (response) { return response.json(); })
+                        .catch(this.handleError);
+                };
+                // calls the [DELETE] /api/items/{id} Web API method to delete the item with the given id.
+                ItemService.prototype.delete = function (id) {
+                    var url = this.baseUrl + id;
+                    return this.http.delete(url)
+                        .catch(this.handleError);
+                };
+                // returns a viable RequestOptions object to handle Json requests
+                ItemService.prototype.getRequestOptions = function () {
+                    return new http_1.RequestOptions({
+                        headers: new http_1.Headers({
+                            "Content-Type": "application/json"
+                        })
+                    });
                 };
                 ItemService.prototype.handleError = function (error) {
                     // output errors to the console.

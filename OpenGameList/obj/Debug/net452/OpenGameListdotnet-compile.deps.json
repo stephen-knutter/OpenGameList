@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETFramework,Version=v4.5.2/",
-    "signature": "4b9fd4339edf67c620a552bad3f7a9019784887a"
+    "signature": "1dd37d34c61bf4b7f9d5377bf9f0c4d9df8d0ddf"
   },
   "compilationOptions": {
     "defines": [
@@ -39,7 +39,8 @@
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
           "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
-          "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final"
+          "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final",
+          "TinyMapper": "2.0.8"
         },
         "compile": {
           "OpenGameList.exe": {}
@@ -1385,6 +1386,11 @@
           ".NETFramework/v4.5.2/Facades/System.Xml.XDocument.dll": {}
         }
       },
+      "TinyMapper/2.0.8": {
+        "compile": {
+          "lib/net45/TinyMapper.dll": {}
+        }
+      },
       "mscorlib/4.0.0.0": {
         "compile": {
           ".NETFramework/v4.5.2/mscorlib.dll": {}
@@ -1461,7 +1467,8 @@
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
           "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
-          "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final"
+          "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final",
+          "TinyMapper": "2.0.8"
         },
         "runtime": {
           "OpenGameList.exe": {}
@@ -2663,6 +2670,11 @@
       "System.Threading.Timer/4.0.0.0": {},
       "System.Xml.ReaderWriter/4.0.0.0": {},
       "System.Xml.XDocument/4.0.0.0": {},
+      "TinyMapper/2.0.8": {
+        "runtime": {
+          "lib/net45/TinyMapper.dll": {}
+        }
+      },
       "mscorlib/4.0.0.0": {},
       "System/4.0.0.0": {},
       "System.Core/4.0.0.0": {},
@@ -3445,6 +3457,11 @@
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
+    },
+    "TinyMapper/2.0.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZI2Tot9B/F2Cfr/pius39a038ui2INVknUzt3EL7O1ygZUAfhxy8m1OkPGLxQOxIiczn+YTWJN/fM3FPnoUJIw=="
     },
     "mscorlib/4.0.0.0": {
       "type": "referenceassembly",

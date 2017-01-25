@@ -12,6 +12,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using OpenGameList.Data;
 
+using Nelibur.ObjectMapper;
+using OpenGameList.Data.Items;
+using OpenGameList.ViewModels;
+
 namespace OpenGameList
 {
     public class Startup
@@ -80,6 +84,9 @@ namespace OpenGameList
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc();
+
+            // TinyMapper binding configuration
+            TinyMapper.Bind<Item, ItemViewModel>();
 
             // Seed the Database (if needed)
             try

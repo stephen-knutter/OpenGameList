@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./item.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./item.service", "./item"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "./item.service"], function
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, item_service_1, ItemDetailComponent;
+    var core_1, router_1, item_service_1, item_1, ItemDetailComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -21,6 +21,9 @@ System.register(["@angular/core", "@angular/router", "./item.service"], function
             },
             function (item_service_1_1) {
                 item_service_1 = item_service_1_1;
+            },
+            function (item_1_1) {
+                item_1 = item_1_1;
             }
         ],
         execute: function () {
@@ -32,22 +35,53 @@ System.register(["@angular/core", "@angular/router", "./item.service"], function
                 }
                 ItemDetailComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    var id = this.activatedRoute.snapshot.params["id"];
+                    var id = +this.activatedRoute.snapshot.params["id"];
                     if (id) {
-                        this.itemService.getById(id).subscribe(function (item) { return _this.item = item; });
-                        console.log(this.item);
+                        this.itemService.get(id).subscribe(function (item) { return _this.item = item; });
+                    }
+                    else if (id === 0) {
+                        console.log("id is 0: adding a new item...");
+                        this.item = new item_1.Item(0, "New Item", null);
                     }
                     else {
                         console.log("Invalid id: routing back to home...");
                         this.router.navigate([""]);
                     }
                 };
+                ItemDetailComponent.prototype.onInsert = function (item) {
+                    var _this = this;
+                    this.itemService.add(item).subscribe(function (data) {
+                        _this.item = data;
+                        console.log("Item " + _this.item.Id + " has been added");
+                        _this.router.navigate([""]);
+                    }, function (error) { return console.log(error); });
+                };
+                ItemDetailComponent.prototype.onUpdate = function (item) {
+                    var _this = this;
+                    console.log('update item: ', item);
+                    this.itemService.update(item).subscribe(function (data) {
+                        _this.item = data;
+                        console.log("Item " + _this.item.Id + " has been updated.");
+                        _this.router.navigate([""]);
+                    }, function (error) { return console.log(error); });
+                };
+                ItemDetailComponent.prototype.onDelete = function (item) {
+                    var _this = this;
+                    var id = item.Id;
+                    this.itemService.delete(id).subscribe(function (data) {
+                        console.log("Item " + id + " has been deleted");
+                        _this.router.navigate([""]);
+                    }, function (error) { return console.log(error); });
+                };
+                ItemDetailComponent.prototype.onBack = function () {
+                    this.router.navigate([""]);
+                };
                 return ItemDetailComponent;
             }());
             ItemDetailComponent = __decorate([
                 core_1.Component({
                     selector: "item-detail",
-                    template: "\n        <div *ngIf=\"item\" class=\"item-details\">\n            <h2>{{item.Title}} - Detail View</h2>\n            <ul>\n                <li>\n                    <label>Title:</label>\n                    <input [(ngModel)]=\"item.Title\" placeholder=\"Insert the title...\" />\n                </li>\n                <li>\n                    <label>Description:</label>\n                    <textarea [(ngModel)]=\"item.Description\" placeholder=\"Insert a description...\"></textarea>\n                </li>\n            </ul>\n        </div>\n    ",
+                    template: "\n        <div *ngIf=\"item\" class=\"item-details\">\n            <h2>{{item.Title}} - Detail View</h2>\n            <ul>\n                <li>\n                    <label>Title:</label>\n                    <input [(ngModel)]=\"item.Title\" placeholder=\"Insert the title...\" />\n                </li>\n                <li>\n                    <label>Description:</label>\n                    <textarea [(ngModel)]=\"item.Description\" placeholder=\"Insert a description...\"></textarea>\n                </li>\n            </ul>\n            <div *ngIf=\"item.Id == 0\" class=\"commands insert\">\n                <input type=\"button\" value=\"Save\" (click)=\"onInsert(item)\" />\n                <input type=\"button\" value=\"Cancel\" (click)=\"onBack()\" />\n            </div>\n            <div *ngIf=\"item.Id != 0\" class=\"commands update\">\n                <input type=\"button\" value=\"Update\" (click)=\"onUpdate(item)\" />\n                <input type=\"button\" value=\"Delete\" (click)=\"onDelete(item)\" />\n                <input type=\"button\" value=\"Back\" (click)=\"onBack()\" />\n            </div>\n        </div>\n    ",
                     styles: ["\n        .item-details {\n            margin: 5px;\n            padding: 5px 10px;\n            border: 1px solid black;\n            background-color: #dddddd;\n            width: 300px;\n        }\n        .item-details * {\n            verticle-align: middle;\n        }\n        .item-details ul li {\n            padding: 5px 0;\n        }\n    "]
                 }),
                 __metadata("design:paramtypes", [item_service_1.ItemService,
