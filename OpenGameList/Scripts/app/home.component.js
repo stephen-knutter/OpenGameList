@@ -24,7 +24,7 @@ System.register(["@angular/core"], function (exports_1, context_1) {
             HomeComponent = __decorate([
                 core_1.Component({
                     selector: "home",
-                    template: "\n        <h2>{{title}}</h2>\n        <item-list class=\"latest\"></item-list>\n        <item-list class=\"most-viewed\"></item-list>\n        <item-list class=\"random\"></item-list>\n    "
+                    template: "\n        <h2>\n            A non-comprehensive directory of open-source video games \n            available on the web\n        </h2>\n        <div class=\"col-md-4\">\n            <item-list class=\"latest\"></item-list>\n        </div>\n        <div class=\"col-md-4\">\n            <item-list class=\"most-viewed\"></item-list>\n        </div>\n        <div class=\"col-md-4\">\n            <item-list class=\"random\"></item-list>\n        </div>\n        "
                 })
             ], HomeComponent);
             exports_1("HomeComponent", HomeComponent);

@@ -159,3 +159,8 @@ form.item-detail-edit .commands {
 form.item-detail-edit .commands input[type="button"] {
   margin-left: 5px;
 }
+.empty-field {
+  color: #f04124;
+  font-weight: normal;
+  font-style: italic;
+}

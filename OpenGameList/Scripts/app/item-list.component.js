@@ -64,8 +64,7 @@ System.register(["@angular/core", "@angular/router", "./item.service"], function
             ItemListComponent = __decorate([
                 core_1.Component({
                     selector: "item-list",
-                    template: "<h2>{{title}}</h2>\n        <ul class=\"items\">\n           <li *ngFor=\"let item of items\"\n                [class.selected]=\"item === selectedItem\"\n                (click)=\"onSelect(item)\">\n                    <span>{{item.Title}}</span>\n           </li>\n        </ul>\n    ",
-                    styles: ["\n        ul.items li {\n            cursor: pointer;\n        }\n        ul.items li.selected {\n            background-color: #dddddd;\n        }\n    "]
+                    template: "<h3>{{title}}</h3>\n        <ul class=\"items\">\n           <li *ngFor=\"let item of items\"\n                [class.selected]=\"item === selectedItem\"\n                (click)=\"onSelect(item)\">\n                    <div class=\"title\">{{item.Title}}</div>\n                    <div class=\"description\">{{item.Description}}</div>\n           </li>\n        </ul>\n    "
                 }),
                 __metadata("design:paramtypes", [item_service_1.ItemService, router_1.Router])
             ], ItemListComponent);

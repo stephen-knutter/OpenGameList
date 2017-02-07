@@ -182,4 +182,7 @@
 "C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Data\Migrations\20170123180735_Initial.Designer.cs"
 "C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Data\Migrations\ApplicationDbContextModelSnapshot.cs"
 "C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Data\Users\ApplicationUser.cs"
+"C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\DataMigrations\20170206174822_Identity.cs"
+"C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\DataMigrations\20170206174822_Identity.Designer.cs"
+"C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\DataMigrations\ApplicationDbContextModelSnapshot.cs"
 "C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\ViewModels\ItemViewModel.cs"

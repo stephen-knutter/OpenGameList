@@ -23,10 +23,17 @@ import { Item } from "./item";
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <form class="item-detail-edit">
-                            <h3>{{item.Title}}</h3>
-                            <div class="form-group">
+                            <h3>
+                                {{item.Title}}
+                                <span class="empty-field" [hidden]="dTitle.valid">Empty title</span>
+                            </h3>
+                            <div class="form-group has-feedback" [ngClass]="{'has-success': dTitle.valid, 'has-error': !dTitle.valid}">
                                 <label for="input-title">Title</label>
-                                <input id="input-title" name="input-title" type="text" class="form-control" [(ngModel)]="item.Title" placeholder="Insert the title..." />
+                                <input id="input-title" name="input-title" type="text" class="form-control" [(ngModel)]="item.Title" placeholder="Insert the title..." required #dTitle="ngModel" />
+                                <span class="glyphicon form-control-feedback"aria-hidden="true" [ngClass]="{'glyphicon-ok': dTitle.void, 'glyphicon-remove': !dTitle.valid}"></span>
+                                <div [hidden]=" dTitle.valid" class="alert alert-danger">
+                                    You need to enter a valid Title.
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="input-description">Description</label>
@@ -112,5 +119,6 @@ export class ItemDetailEditComponent {
 
     onItemDetailView(item: Item) {
         this.router.navigate(["item/view", item.Id]);
+        return false;
     }
 }
