@@ -2,6 +2,7 @@
 import { Router, ActivatedRoute } from "@angular/router";
 import { ItemService } from "./item.service";
 import { Item } from "./item";
+import { AuthService } from "./auth.service";
 
 @Component({
     selector: "item-detail-edit",
@@ -59,12 +60,17 @@ import { Item } from "./item";
 export class ItemDetailEditComponent {
     item: Item;
 
-    constructor(private itemService: ItemService,
+    constructor(private authService: AuthService,
+        private itemService: ItemService,
         private router: Router,
         private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
+        if (!this.authService.isLoggedIn()) {
+            this.router.navigate([""]);
+        }
+
         var id = +this.activatedRoute.snapshot.params["id"];
         if (id) {
             this.itemService.get(id).subscribe(

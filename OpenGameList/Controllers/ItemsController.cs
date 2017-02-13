@@ -10,6 +10,8 @@ using OpenGameList.Data;
 using OpenGameList.Data.Items;
 using Nelibur.ObjectMapper;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace OpenGameList.Controllers
 {
   [Route("api/[controller]")]
@@ -58,6 +60,7 @@ namespace OpenGameList.Controllers
         /// </summary>
         /// <returns>Creates a new Item and return it accordingly.</returns>
         [HttpPost()]
+        [Authorize]
         public IActionResult Add([FromBody]ItemViewModel ivm)
         {
             if (ivm != null)
@@ -90,6 +93,7 @@ namespace OpenGameList.Controllers
         /// </summary>
         /// <returns>Updates an existing Item and return it accordingly</returns>
         [HttpPut("{id}")]
+        [Authorize]
         public IActionResult Update(int id, [FromBody]ItemViewModel ivm)
         {
             if (ivm != null)
@@ -126,6 +130,7 @@ namespace OpenGameList.Controllers
         /// </summary>
         /// <returns>Deletes an Item, returning a HTTP status 200 (ok) when done.</returns>
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var item = DbContext.Items.Where(i => i.Id == id).FirstOrDefault();

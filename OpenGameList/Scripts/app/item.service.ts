@@ -2,13 +2,14 @@
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Item } from "./item";
+import { AuthHttp } from "./auth.http";
 
 @Injectable()
 export class ItemService {
     // private Data: { Latest: Item[], MostViewed: Item[], Random: Item[] };
     private baseUrl = "api/items/"; // web api URL
 
-    constructor(private http: Http) { }
+    constructor(private http: AuthHttp) { }
 
     getById(id: number) {
         if (id == null) { throw new Error("id is required"); }

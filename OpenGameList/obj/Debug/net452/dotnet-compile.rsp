@@ -106,10 +106,10 @@
 --reference:C:\Users\sknutter\.nuget\packages\Microsoft.Extensions.PlatformAbstractions\1.0.0\lib\net451\Microsoft.Extensions.PlatformAbstractions.dll
 --reference:C:\Users\sknutter\.nuget\packages\Microsoft.Extensions.Primitives\1.1.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll
 --reference:C:\Users\sknutter\.nuget\packages\Microsoft.Extensions.WebEncoders\1.1.0\lib\netstandard1.0\Microsoft.Extensions.WebEncoders.dll
---reference:C:\Users\sknutter\.nuget\packages\Microsoft.IdentityModel.Logging\1.0.0\lib\net451\Microsoft.IdentityModel.Logging.dll
+--reference:C:\Users\sknutter\.nuget\packages\Microsoft.IdentityModel.Logging\1.1.2\lib\net451\Microsoft.IdentityModel.Logging.dll
 --reference:C:\Users\sknutter\.nuget\packages\Microsoft.IdentityModel.Protocols\2.0.0\lib\net451\Microsoft.IdentityModel.Protocols.dll
 --reference:C:\Users\sknutter\.nuget\packages\Microsoft.IdentityModel.Protocols.OpenIdConnect\2.0.0\lib\net451\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
---reference:C:\Users\sknutter\.nuget\packages\Microsoft.IdentityModel.Tokens\5.0.0\lib\net451\Microsoft.IdentityModel.Tokens.dll
+--reference:C:\Users\sknutter\.nuget\packages\Microsoft.IdentityModel.Tokens\5.1.2\lib\net451\Microsoft.IdentityModel.Tokens.dll
 --reference:C:\Users\sknutter\.nuget\packages\Microsoft.Net.Http.Headers\1.1.0\lib\netstandard1.1\Microsoft.Net.Http.Headers.dll
 --reference:C:\Users\sknutter\.nuget\packages\Microsoft.VisualStudio.Web.BrowserLink.Loader\14.0.0\lib\net451\Microsoft.VisualStudio.Web.BrowserLink.Loader.dll
 --reference:C:\Users\sknutter\.nuget\packages\Newtonsoft.Json\9.0.1\lib\net45\Newtonsoft.Json.dll
@@ -127,7 +127,7 @@
 --reference:C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\Facades\System.Diagnostics.Tools.dll
 --reference:C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\Facades\System.Diagnostics.Tracing.dll
 --reference:C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\Facades\System.Globalization.dll
---reference:C:\Users\sknutter\.nuget\packages\System.IdentityModel.Tokens.Jwt\5.0.0\lib\net451\System.IdentityModel.Tokens.Jwt.dll
+--reference:C:\Users\sknutter\.nuget\packages\System.IdentityModel.Tokens.Jwt\5.1.2\lib\net451\System.IdentityModel.Tokens.Jwt.dll
 --reference:C:\Users\sknutter\.nuget\packages\System.Interactive.Async\3.0.0\lib\net45\System.Interactive.Async.dll
 --reference:C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\Facades\System.IO.dll
 --reference:C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.IO.Compression.dll
@@ -176,6 +176,7 @@
 --resource:"C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\obj\Debug\net452\OpenGameListdotnet-compile.deps.json",OpenGameList.deps.json
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Program.cs
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Startup.cs
+C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Classes\JwtProvider.cs
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Controllers\ItemsController.cs
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Controllers\ValuesController.cs
 C:\Users\sknutter\Documents\Visual Studio 2015\Projects\OpenGameList\OpenGameList\Data\ApplicationDbContext.cs

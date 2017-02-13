@@ -1,5 +1,6 @@
 ﻿import { Component } from "@angular/core";
 import { Router } from "@angular/router";
+import { AuthService } from "./auth.service";
 
 @Component({
     selector: "opengamelist",
@@ -20,10 +21,25 @@ import { Router } from "@angular/router";
             </div> 
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav">
-                    <li><a class="home" [routerLink]="['']">Home</a></li>
-                    <li><a class="about" [routerLink]="['about']">About</a></li>
-                    <li><a class="login" [routerLink]="['login']">Login</a></li>
-                    <li><a class="add" [routerLink]="['item/edit', 0]">Add new</a></li>
+                    <li [class.active]="isActive([''])">
+                        <a class="home" [routerLink]="['']">Home</a>
+                    </li>
+                    <li [class.active]="isActive(['about'])">
+                        <a class="about" [routerLink]="['about']">About</a>
+                    </li>
+                    <li *ngIf="!authService.isLoggedIn()"
+                        [class.active]="isActive(['login'])">
+                        <a class="login" [routerLink]="['login']">Login</a>
+                    </li>
+                    <li *ngIf="authService.isLoggedIn()">
+                        <a class="logout" href="javascript:void(0)" (click)="logout()">
+                            Logout
+                        </a>
+                    </li>
+                    <li *ngIf="authService.isLoggedIn()"
+                        [class.active]="isActive(['item/edit', 0])">
+                        <a class="add" [routerLink]="['item/edit', 0]">Add new</a>
+                    </li>
                 </ul>
             </div>
            </div>
@@ -38,10 +54,18 @@ import { Router } from "@angular/router";
 export class AppComponent {
     title = "OpenGameList";
 
-    constructor(public router: Router) { }
+    constructor(public router: Router, public authService: AuthService) { }
 
     isActive(data: any[]): boolean {
         return this.router.isActive(
             this.router.createUrlTree(data), true);
+    }
+
+    logout(): boolean {
+        // logs out the user, the redirects back to welcome view
+        if (this.authService.logout()) {
+            this.router.navigate([""]);
+        }
+        return false;
     }
 }

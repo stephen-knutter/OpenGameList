@@ -19,6 +19,9 @@ using Nelibur.ObjectMapper;
 using OpenGameList.Data.Items;
 using OpenGameList.ViewModels;
 
+using OpenGameList.Classes;
+using Microsoft.IdentityModel.Tokens;
+
 namespace OpenGameList
 {
     public class Startup
@@ -89,6 +92,24 @@ namespace OpenGameList
                     context.Context.Response.Headers["Cache-Control"] = Configuration["StaticFiles:Headers:Cache-Control"];
                     context.Context.Response.Headers["Pragma"] = Configuration["StaticFiles:Headers:Pragma"];
                     context.Context.Response.Headers["Expires"] = Configuration["StaticFiles:Headers:Expires"];
+                }
+            });
+
+            // Add a custom Jwt Provider to generate Tokens
+            app.UseJwtProvider();
+
+            // Add the Jwt Bearer Header Authentication to validate Tokens
+            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                RequireHttpsMetadata = false,
+                TokenValidationParameters = new TokenValidationParameters()
+                {
+                    IssuerSigningKey = JwtProvider.SecurityKey,
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false
                 }
             });
 

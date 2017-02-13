@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETFramework,Version=v4.5.2/",
-    "signature": "1dd37d34c61bf4b7f9d5377bf9f0c4d9df8d0ddf"
+    "signature": "51ae5d8437742fe0d2cab237f744a57a7bc874c9"
   },
   "compilationOptions": {
     "defines": [
@@ -40,7 +40,9 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
           "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
           "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final",
-          "TinyMapper": "2.0.8"
+          "TinyMapper": "2.0.8",
+          "Microsoft.IdentityModel.Tokens": "5.1.2",
+          "System.IdentityModel.Tokens.Jwt": "5.1.2"
         },
         "compile": {
           "OpenGameList.exe": {}
@@ -1015,14 +1017,14 @@
           "lib/netstandard1.0/Microsoft.Extensions.WebEncoders.dll": {}
         }
       },
-      "Microsoft.IdentityModel.Logging/1.0.0": {
+      "Microsoft.IdentityModel.Logging/1.1.2": {
         "compile": {
           "lib/net451/Microsoft.IdentityModel.Logging.dll": {}
         }
       },
       "Microsoft.IdentityModel.Protocols/2.0.0": {
         "dependencies": {
-          "System.IdentityModel.Tokens.Jwt": "5.0.0",
+          "System.IdentityModel.Tokens.Jwt": "5.1.2",
           "System.Net.Http": "4.0.0.0"
         },
         "compile": {
@@ -1037,9 +1039,9 @@
           "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll": {}
         }
       },
-      "Microsoft.IdentityModel.Tokens/5.0.0": {
+      "Microsoft.IdentityModel.Tokens/5.1.2": {
         "dependencies": {
-          "Microsoft.IdentityModel.Logging": "1.0.0",
+          "Microsoft.IdentityModel.Logging": "1.1.2",
           "Newtonsoft.Json": "9.0.1",
           "System.Xml": "4.0.0.0"
         },
@@ -1201,9 +1203,9 @@
           ".NETFramework/v4.5.2/Facades/System.Globalization.dll": {}
         }
       },
-      "System.IdentityModel.Tokens.Jwt/5.0.0": {
+      "System.IdentityModel.Tokens.Jwt/5.1.2": {
         "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "5.0.0"
+          "Microsoft.IdentityModel.Tokens": "5.1.2"
         },
         "compile": {
           "lib/net451/System.IdentityModel.Tokens.Jwt.dll": {}
@@ -1468,7 +1470,9 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
           "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
           "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final",
-          "TinyMapper": "2.0.8"
+          "TinyMapper": "2.0.8",
+          "Microsoft.IdentityModel.Tokens": "5.1.2",
+          "System.IdentityModel.Tokens.Jwt": "5.1.2"
         },
         "runtime": {
           "OpenGameList.exe": {}
@@ -2439,14 +2443,14 @@
           "lib/netstandard1.0/Microsoft.Extensions.WebEncoders.dll": {}
         }
       },
-      "Microsoft.IdentityModel.Logging/1.0.0": {
+      "Microsoft.IdentityModel.Logging/1.1.2": {
         "runtime": {
           "lib/net451/Microsoft.IdentityModel.Logging.dll": {}
         }
       },
       "Microsoft.IdentityModel.Protocols/2.0.0": {
         "dependencies": {
-          "System.IdentityModel.Tokens.Jwt": "5.0.0",
+          "System.IdentityModel.Tokens.Jwt": "5.1.2",
           "System.Net.Http": "4.0.0.0"
         },
         "runtime": {
@@ -2461,9 +2465,9 @@
           "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll": {}
         }
       },
-      "Microsoft.IdentityModel.Tokens/5.0.0": {
+      "Microsoft.IdentityModel.Tokens/5.1.2": {
         "dependencies": {
-          "Microsoft.IdentityModel.Logging": "1.0.0",
+          "Microsoft.IdentityModel.Logging": "1.1.2",
           "Newtonsoft.Json": "9.0.1",
           "System.Xml": "4.0.0.0"
         },
@@ -2593,9 +2597,9 @@
       "System.Diagnostics.Tools/4.0.0.0": {},
       "System.Diagnostics.Tracing/4.0.10.0": {},
       "System.Globalization/4.0.0.0": {},
-      "System.IdentityModel.Tokens.Jwt/5.0.0": {
+      "System.IdentityModel.Tokens.Jwt/5.1.2": {
         "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "5.0.0"
+          "Microsoft.IdentityModel.Tokens": "5.1.2"
         },
         "runtime": {
           "lib/net451/System.IdentityModel.Tokens.Jwt.dll": {}
@@ -3168,10 +3172,10 @@
       "serviceable": true,
       "sha512": "sha512-YnUfcLe/FYL3Mft5HPv7dSSKfZZCZwLG2GQfv3vuxdY4AbWOYLqq/3wIPCNIrgMXvzralWdkESNsb9iw5gKdpg=="
     },
-    "Microsoft.IdentityModel.Logging/1.0.0": {
+    "Microsoft.IdentityModel.Logging/1.1.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-8lt3q7o9xSLyKfja/D2J67N8EZLwISjXktkwxK275yOrZY16iNCHCWqtDVP1M/DHuC/LWFMoheF3lmaJC9UXQg=="
+      "sha512": "sha512-QPMFfRVnRkCzGpEQz/YEPsbwUjAp5R1W2dpaXHlJJNA7fp9gV4m4TDKvvXhQnqdEL0a0luNrYFZrbz7NRI1rXQ=="
     },
     "Microsoft.IdentityModel.Protocols/2.0.0": {
       "type": "package",
@@ -3183,10 +3187,10 @@
       "serviceable": true,
       "sha512": "sha512-0TVkFvDN2fnDt7DelqZ5w7SEwpOiCycNc/CV1ZZjFEBY0Kn4EwG100Lhf7nvylm5CrgiDWYHb6Db8hnDDTpiWg=="
     },
-    "Microsoft.IdentityModel.Tokens/5.0.0": {
+    "Microsoft.IdentityModel.Tokens/5.1.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-VwNw+fm2nlbkL3GRO8b6WBlqs6M4q9Dft0CAg0TMHUYwuiU+4dciiIlZRC6q/HEcllKUvc0KDXt20n2PGcO1pA=="
+      "sha512": "sha512-m7UP4iY/dWfVwDNNSVGvZV6r4PwflaK++sYQsTTGAMILYb5IJ4Z4rKJRCA0uKjo6jTcdWlQxyPsxoEVwjqPKqQ=="
     },
     "Microsoft.Net.Http.Headers/1.1.0": {
       "type": "package",
@@ -3283,10 +3287,10 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.IdentityModel.Tokens.Jwt/5.0.0": {
+    "System.IdentityModel.Tokens.Jwt/5.1.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Ne69BCr2FPAysLG7pOM/+U/XFwGg849GIML2NuqtfEwBC3l74SaUPN3AmJfHccBcgOSDL3jVLQ3/ZQTtd3g6JA=="
+      "sha512": "sha512-wneX9Rv1p8zXNQ8v3mzKPlja3dP0dQY0Ea/0KUtCtlyqB9WtYoEWxTidqgq5iBHGvG5p/yuFKfedgvt2y68HpA=="
     },
     "System.Interactive.Async/3.0.0": {
       "type": "package",
